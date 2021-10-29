@@ -1,0 +1,17 @@
+@mixin full-container {
+  width: 100%;
+  height: 100%;
+}
+
+@mixin ellipse {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin center-block {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%， -50%);
+}

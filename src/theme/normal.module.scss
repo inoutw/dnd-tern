@@ -1,0 +1,24 @@
+$primary-color: blue;
+
+.app-container {
+  height: 100%;
+  .menu-container {
+  }
+  .content-container {
+    padding: 16px;
+    background-color: #ffffff;
+    position: relative;
+  }
+}
+
+// light
+
+// dark
+
+.red {
+  color: $primary-color;
+}
+
+:export {
+  primaryColor: $primary-color;
+}
