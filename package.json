@@ -1,8 +1,9 @@
 {
-  "name": "app-react",
+  "name": "config-center",
   "version": "0.1.0",
   "private": true,
-  "microName": "app-v",
+  "microName": "config-center",
+  "proxy": "http://link.csmp.qihoo.net:9080/",
   "dependencies": {
     "@babel/core": "7.12.3",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
@@ -28,6 +29,7 @@
     "bfj": "^7.0.2",
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "csmp-ui": "last",
     "css-loader": "4.3.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
@@ -74,6 +76,7 @@
     "sass": "^1.35.1",
     "sass-loader": "^10.0.5",
     "semver": "7.3.2",
+    "shared-session": "^1.1.6",
     "style-loader": "1.3.0",
     "terser-webpack-plugin": "4.2.3",
     "ts-pnp": "1.2.0",
