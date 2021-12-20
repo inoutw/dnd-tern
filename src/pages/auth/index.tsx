@@ -1,6 +1,12 @@
 import { Form, Input, Button } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import api from 'api/auth';
+import style from './style.module.scss';
+import { useGlobalContext } from 'App';
+
 const Auth: React.FC<{}> = () => {
+  const globalContext = useGlobalContext();
+
   const onFinish = (values: any) => {
     console.log('Success:', values);
     api
@@ -8,64 +14,36 @@ const Auth: React.FC<{}> = () => {
       .then((res) => {
         console.log(res);
       })
-      .finally(() => {});
+      .finally(() => {
+        localStorage.setItem('isLogin', 'yes');
+        globalContext.setIsLogin(true);
+      });
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
   return (
-    <div
-      style={{
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        background: 'rgba(245,245,245,0.8)'
-      }}>
-      <div
-        style={{
-          width: 400,
-          height: 270,
-          padding: '20px',
-          background: '#fff',
-          boxShadow: '0 0 10px rgba(0,0,0,0.1)'
-        }}>
-        <div
-          style={{
-            fontSize: 24,
-            fontWeight: 700,
-            lineHeight: '40px',
-            textAlign: 'center',
-            marginTop: 10,
-            marginBottom: 20,
-            textShadow: '0 0 10px rgba(0,0,0,0.1)',
-            letterSpacing: '2px'
-          }}>
-          欢迎登录配置中心
-        </div>
-        <Form
-          name="basic"
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 20 }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off">
-          <Form.Item label="账号" name="username" rules={[{ required: true, message: '请输入账号!' }]}>
-            <Input placeholder="请输入账号" />
-          </Form.Item>
+    <div className={style.container}>
+      <div className={style.content}>
+        <div className={style.introduce}></div>
+        <div className={style.form}>
+          <div className={style.welcome}>Welcome to</div>
+          <div className={style.title}>云阵配置中心</div>
+          <Form initialValues={{ remember: true }} layout="vertical" onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
+            <Form.Item label="账号" name="username" rules={[{ required: true, message: '请输入账号!' }]}>
+              <Input prefix={<UserOutlined />} placeholder="请输入账号" />
+            </Form.Item>
 
-          <Form.Item label="密码" name="password" rules={[{ required: true, message: '请输入密码!' }]}>
-            <Input.Password placeholder="请输入密码" />
-          </Form.Item>
+            <Form.Item label="密码" name="password" rules={[{ required: true, message: '请输入密码!' }]}>
+              <Input.Password prefix={<LockOutlined />} placeholder="请输入密码" />
+            </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 4, span: 20 }}>
-            <Button type="primary" htmlType="submit">
+            <Button className={style['login-btn']} type="primary" htmlType="submit">
               登录
             </Button>
-          </Form.Item>
-        </Form>
+          </Form>
+        </div>
       </div>
     </div>
   );

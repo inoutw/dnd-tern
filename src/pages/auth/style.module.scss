@@ -1,0 +1,44 @@
+.container {
+  height: 100%;
+  background: linear-gradient(0deg, rgba(6, 92, 199, 1) 0%, rgba(69, 153, 225, 1) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .content {
+    width: 600px;
+    height: 400px;
+    border-radius: 12px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    background-color: #ffffff;
+    overflow: hidden;
+    display: flex;
+    .introduce {
+      width: 50%;
+      background-color: orchid;
+      background: url(./background.png) no-repeat center center;
+      background-size: cover;
+    }
+    .form {
+      padding: 20px;
+      width: 50%;
+      .welcome {
+        color: #5b2362;
+      }
+      .title {
+        font-size: 24px;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        height: 80px;
+        letter-spacing: 2px;
+      }
+      .login-btn {
+        margin-top: 8px;
+        height: 40px;
+        font-size: 18px;
+        font-weight: bolder;
+        background-color: #3a53df;
+        box-shadow: 0 0 10px rgba(58, 83, 223, 0.3);
+        width: 100%;
+      }
+    }
+  }
+}
