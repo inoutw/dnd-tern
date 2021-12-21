@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Route, Switch, useLocation, useHistory, Redirect } from 'react-router-dom';
 
 import { Menu } from 'antd';
 import Loading from 'components/Loading';
 import NormalForm from './NormalForm';
 import NormalTable from './NormalTable';
+import { NormalMenu } from 'csmp-ui';
 import style from './style.module.scss';
+import { common } from 'assets';
 const { SubMenu } = Menu;
 
 export const MenuData = [
@@ -20,7 +22,7 @@ export const MenuData = [
     icon: 'subapp'
   },
   {
-    key: 'config-center',
+    key: '/config-center',
     title: '配置中心',
     children: [
       {
@@ -34,15 +36,15 @@ export const MenuData = [
     ]
   },
   {
-    key: 'sub-system',
+    key: '/sub-system',
     title: '子应用',
     children: [
       {
-        key: 'app-react',
+        key: '/sub-system/app-react',
         title: 'app-react'
       },
       {
-        key: 'app-vue',
+        key: '/sub-system/app-vue',
         title: 'app-vue'
       }
     ]
@@ -53,30 +55,52 @@ const AppLayout: React.FC<{}> = () => {
   const location = useLocation();
   const history = useHistory();
 
-  const getMenu = (menus: any[]) =>
-    menus.map((m) => {
-      if (m.children?.length) {
-        const subMenus: any = m.children;
-        return (
-          <SubMenu key={m.key} title={m.title}>
-            {getMenu(subMenus)}
-          </SubMenu>
-        );
-      } else {
-        return <Menu.Item key={m.key}>{m.title}</Menu.Item>;
-      }
-    });
+  // const getMenu = (menus: any[]) =>
+  //   menus.map((m) => {
+  //     if (m.children?.length) {
+  //       const subMenus: any = m.children;
+  //       return (
+  //         <SubMenu key={m.key} title={m.title}>
+  //           {getMenu(subMenus)}
+  //         </SubMenu>
+  //       );
+  //     } else {
+  //       return <Menu.Item key={m.key}>{m.title}</Menu.Item>;
+  //     }
+  //   });
   useEffect(() => {
     if (location.pathname === '/app') {
-      history.push('/app/table');
+      // history.push('/app/table');
     }
   }, [location, history]);
 
+  const dataTransform = useCallback((menuData: any[]) => {
+    let result = [];
+    for (let item of menuData) {
+      let { children, title: name, key, ...restProps } = item;
+      let subMenu: any[] = [];
+      if (children) {
+        subMenu = dataTransform(children);
+      }
+      result.push({ key, subMenu, name, ...restProps });
+    }
+    return result;
+  }, []);
+  console.log(common.logo_menu, '000');
   return (
     <div className={style['main-container']}>
       <div className={style['menu-container']}>
-        <div className={style['logo-wrap']}>LOGO</div>
-        <Menu
+        <div className={style['logo-wrap']}>
+          <img
+            src={common.logo_menu}
+            alt="云阵"
+            style={{
+              width: 192,
+              height: 22
+            }}
+          />
+        </div>
+        {/* <Menu
           onClick={(value) => {
             history.push('/app' + value.key);
           }}
@@ -84,7 +108,8 @@ const AppLayout: React.FC<{}> = () => {
           defaultSelectedKeys={['home']}
           mode="inline">
           {getMenu(MenuData)}
-        </Menu>
+        </Menu> */}
+        <NormalMenu menuList={MenuData} dataTransform={dataTransform} history={history} basePath="/app"></NormalMenu>
       </div>
 
       <div className={style['right-container']}>

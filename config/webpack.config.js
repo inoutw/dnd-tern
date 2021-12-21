@@ -534,6 +534,7 @@ module.exports = function (webpackEnv) {
               // by webpacks internal loaders.
               exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
               options: {
+                esModule: false,
                 name: 'static/media/[name].[hash:8].[ext]'
               }
             }

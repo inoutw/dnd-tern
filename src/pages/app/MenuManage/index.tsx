@@ -187,9 +187,9 @@ const MenuSetting: React.FC<{}> = () => {
   };
 
   const save = () => {
-    api.saveMenu(menuData).then((res) => {
-      message.success('保存成功！');
-    });
+    // api.saveMenu(menuData).then((res) => {
+    //   message.success('保存成功！');
+    // });
   };
   return (
     <div className="route-normal-container menu-setting">
