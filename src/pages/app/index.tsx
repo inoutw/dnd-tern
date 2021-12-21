@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Route, Switch, useLocation, useHistory, Redirect } from 'react-router-dom';
+
 import { Menu } from 'antd';
 import Loading from 'components/Loading';
 import NormalForm from './NormalForm';
@@ -9,13 +10,14 @@ const { SubMenu } = Menu;
 
 export const MenuData = [
   {
-    key: 'home',
-    title: '首页'
+    key: '/menu',
+    title: '菜单管理',
+    icon: 'menu'
   },
   {
-    key: 'dashboard',
-    title: 'Dashboard',
-    children: [] // if children && children.length
+    key: '/subapp',
+    title: '子应用管理',
+    icon: 'subapp'
   },
   {
     key: 'config-center',
@@ -76,7 +78,7 @@ const AppLayout: React.FC<{}> = () => {
         <div className={style['logo-wrap']}>LOGO</div>
         <Menu
           onClick={(value) => {
-            history.push('/main/' + value.key);
+            history.push('/app' + value.key);
           }}
           style={{ width: '100%' }}
           defaultSelectedKeys={['home']}
@@ -91,9 +93,9 @@ const AppLayout: React.FC<{}> = () => {
           <div className={style['route-view-container']}>
             <React.Suspense fallback={<Loading />}>
               <Switch>
-                <Route exact path="/main" render={() => <Redirect to="/main/home" />} />
-                <Route path="/main/home" render={() => <NormalTable />} />
-                <Route path="/main/dashboard" render={() => <NormalForm />} />
+                <Route exact path="/app" render={() => <Redirect to="/app/home" />} />
+                <Route path="/app/menu" render={() => <NormalTable />} />
+                <Route path="/app/subapp" render={() => <NormalForm />} />
               </Switch>
             </React.Suspense>
           </div>
@@ -101,40 +103,6 @@ const AppLayout: React.FC<{}> = () => {
       </div>
     </div>
   );
-
-  // return (
-  //   <div className={styles['app-container']}>
-  //     <div className={styles['menu-container']}>
-  //       <Menu
-  //         mode="horizontal"
-  //         defaultSelectedKeys={['table']}
-  //         onClick={(value) => {
-  //           history.push('/app/' + value.key);
-  //         }}>
-  //         <Menu.Item key="table">普通表格</Menu.Item>
-  //         <Menu.Item key="form">普通表单</Menu.Item>
-
-  //         <SubMenu key="example" title="二级菜单">
-  //           <Menu.Item key="line">Option 1</Menu.Item>
-  //           <Menu.Item key="bar">Option 2</Menu.Item>
-  //         </SubMenu>
-  //       </Menu>
-  //     </div>
-
-  //     <div className={styles['content-container']}>
-  //       <div>
-  //         {/* 支持lazy */}
-  //         <React.Suspense fallback={<Loading />}>
-  //           <Switch>
-  //             <Route exact path="/app" render={() => <Redirect to="/app/table" />} />
-  //             <Route path="/app/table" render={() => <NormalTable />} />
-  //             <Route path="/app/form" render={() => <NormalForm />} />
-  //           </Switch>
-  //         </React.Suspense>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
 };
 
 export default AppLayout;
