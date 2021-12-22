@@ -1,14 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
 import { Route, Switch, useLocation, useHistory, Redirect } from 'react-router-dom';
 
-import { Menu } from 'antd';
 import Loading from 'components/Loading';
 import NormalForm from './NormalForm';
 import NormalTable from './NormalTable';
 import { NormalMenu } from 'csmp-ui';
 import style from './style.module.scss';
 import { common } from 'assets';
-const { SubMenu } = Menu;
 
 export const MenuData = [
   {
@@ -84,22 +82,15 @@ const AppLayout: React.FC<{}> = () => {
       }
       result.push({ key, subMenu, name, ...restProps });
     }
-    return result;
-  }, []);
-  console.log(common.logo_menu, '000');
+    return result
+  }, [])
   return (
     <div className={style['main-container']}>
       <div className={style['menu-container']}>
-        <div className={style['logo-wrap']}>
-          <img
-            src={common.logo_menu}
-            alt="云阵"
-            style={{
-              width: 192,
-              height: 22
-            }}
-          />
-        </div>
+        <div className={style['logo-wrap']}><img
+          src={common.logo_menu}
+          alt='云阵'
+        /></div>
         {/* <Menu
           onClick={(value) => {
             history.push('/app' + value.key);
@@ -109,7 +100,7 @@ const AppLayout: React.FC<{}> = () => {
           mode="inline">
           {getMenu(MenuData)}
         </Menu> */}
-        <NormalMenu menuList={MenuData} dataTransform={dataTransform} history={history} basePath="/app"></NormalMenu>
+        <NormalMenu menuList={MenuData} dataTransform={dataTransform} history={history} basePath="/app" lightRouteMap={{}}></NormalMenu>
       </div>
 
       <div className={style['right-container']}>

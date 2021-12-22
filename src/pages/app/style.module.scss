@@ -5,13 +5,15 @@
     width: 216px;
     height: 100%;
     overflow-y: auto;
+    background-color: #2b303e;
     .logo-wrap {
       height: 64px;
-      font-size: 32px;
-      color: blue;
-      font-weight: 700;
-      text-align: center;
-      line-height: 64px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img{
+        height: 40px;
+      }
     }
     .ant-menu {
       height: calc(100% - 64px);
