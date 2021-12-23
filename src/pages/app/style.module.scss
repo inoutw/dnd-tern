@@ -11,7 +11,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      img{
+      img {
         height: 40px;
       }
     }
@@ -23,14 +23,36 @@
   .right-container {
     flex: 1;
     .head-container {
+      z-index: 999;
+      position: fixed;
+      top: 0;
+      left: 216px;
+      right: 0;
       height: 64px;
-      background: yellowgreen;
+      background-color: #ffffff;
+      box-shadow: 0px 1px 4px 0px rgba(0, 21, 41, 0.12);
+      .header {
+        float: right;
+        margin-right: 20px;
+        line-height: 60px;
+        .head-avatar {
+          width: 28px;
+          height: 28px;
+          border-radius: 14px;
+          margin: 0 6px 0 12px;
+          box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);
+        }
+      }
     }
     .content-container {
-      height: calc(100% - 64px);
+      height: 100%;
+      padding-top: 64px;
       overflow-y: auto;
       background: #f0f2f5;
       position: relative;
+      &.hide-menu {
+        padding-top: 0;
+      }
       .route-view-container {
         height: 100%;
         .route-normal-container {

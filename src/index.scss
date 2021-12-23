@@ -17,6 +17,29 @@ body > #root {
   height: 100%;
 }
 
+.padding-container {
+  padding: 20px;
+  height: 100%;
+}
+
+.content-container {
+  background: #ffffff;
+  padding: 20px;
+}
+
+.error-page-container {
+  height: calc(100vh - 65px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #999999;
+  background-color: #ffffff;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
 // 滚动条样式重置 -webkit内核生效
 ::-webkit-scrollbar {
   width: 10px;

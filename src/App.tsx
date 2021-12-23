@@ -1,16 +1,14 @@
-import React, { useState, createContext, useContext, lazy, Suspense, useCallback, createElement } from 'react';
+import React, { useState, useEffect, createContext, useContext, lazy, Suspense, useCallback, createElement } from 'react';
 import { ConfigProvider } from 'antd';
 import { Switch, BrowserRouter, Route, Redirect } from 'react-router-dom';
 import zhCN from 'antd/es/locale/zh_CN';
 import Loading from 'components/Loading'; // TODO -> csmp-ui
 import { getBaseUrl } from 'qiankun-config';
-import NotFound from 'pages/404'; // TODO -> csmp-ui 403
+import NotFound from 'pages/404';
+import eventBus from 'utils/eventBus';
+
 const AppEntrance = lazy(() => import('pages/app'));
 const AuthEntrance = lazy(() => import('pages/auth'));
-// TODO
-// 1.登录问题 globalContext done
-// 2.菜单布局 左右 or 上下
-// 3.支持?hidemenu=yes 关闭菜单
 
 interface GlobalInterface {
   isLogin: boolean;
@@ -33,6 +31,19 @@ const App: React.FC<{}> = () => {
     },
     [isLogin]
   );
+
+  useEffect(() => {
+    const logoutFn = (a: any) => {
+      localStorage.clear();
+      setIsLogin(false);
+      return <Redirect to="/login" />;
+    };
+    eventBus.on('logout', logoutFn);
+    return () => {
+      eventBus.remove('logout', logoutFn);
+    };
+  }, []);
+
   return (
     <GlobalContext.Provider value={{ isLogin, setIsLogin }}>
       <ConfigProvider locale={zhCN}>

@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosPromise } from 'axios';
 import { message } from 'antd';
+import eventBus from 'utils/eventBus';
 
 const httpInit = axios.create({
   timeout: 15000
@@ -20,9 +21,7 @@ httpInit.interceptors.response.use(
   (response) => {
     if (response.data?.code === 401) {
       message.error('认证过期');
-      localStorage.clear();
-      (window as any).isReloading = true;
-      window.location.reload();
+      eventBus.emit('logout');
       return response;
     }
     if (response.data?.code !== 200 && response.config.responseType !== 'blob') {
@@ -34,8 +33,7 @@ httpInit.interceptors.response.use(
   },
   (error) => {
     if (error?.response?.status === 401) {
-      localStorage.clear();
-      window.location.reload();
+      eventBus.emit('logout');
     }
     if (error?.message && error.message.includes('timeout')) {
       message.error('连接服务器超时');

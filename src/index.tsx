@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { inQianKun } from 'qiankun-config';
 import reportWebVitals from './reportWebVitals';
+import 'csmp-ui/dist/csmp-ui.cjs.development.css';
 import './index.scss';
 
 // ReactDOM.render(<App />, document.getElementById('root'));

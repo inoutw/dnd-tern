@@ -37,32 +37,34 @@ const NormalTable: React.FC<{}> = () => {
     }
   ];
   return (
-    <div>
-      <Button
-        type="primary"
-        style={{
-          marginBottom: 12
-        }}
-        onClick={() => {
-          setVisible(true);
-        }}>
-        弹窗
-      </Button>
-      <Table dataSource={dataSource} columns={columns} />
-      <Modal
-        title="Basic Modal"
-        visible={visible}
-        onOk={() => {
-          // do something
-          setVisible(false);
-        }}
-        onCancel={() => {
-          setVisible(false);
-        }}>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-      </Modal>
+    <div className="padding-container">
+      <div className="content-container">
+        <Button
+          type="primary"
+          style={{
+            marginBottom: 12
+          }}
+          onClick={() => {
+            setVisible(true);
+          }}>
+          弹窗
+        </Button>
+        <Table dataSource={dataSource} columns={columns} />
+        <Modal
+          title="Basic Modal"
+          visible={visible}
+          onOk={() => {
+            // do something
+            setVisible(false);
+          }}
+          onCancel={() => {
+            setVisible(false);
+          }}>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+        </Modal>
+      </div>
     </div>
   );
 };

@@ -1,23 +1,27 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, createElement } from 'react';
 import { Route, Switch, useLocation, useHistory, Redirect } from 'react-router-dom';
-
+import { MenuOutlined, AppstoreOutlined } from '@ant-design/icons';
 import Loading from 'components/Loading';
 import NormalForm from './NormalForm';
 import NormalTable from './NormalTable';
 import { NormalMenu } from 'csmp-ui';
 import style from './style.module.scss';
 import { common } from 'assets';
+import NotFound from 'pages/404';
+import { getValueInUrl } from 'utils';
+import classnames from 'classnames';
+import Header from './Header';
 
 export const MenuData = [
   {
     key: '/menu',
     title: '菜单管理',
-    icon: 'menu'
+    icon: <MenuOutlined />
   },
   {
     key: '/subapp',
     title: '子应用管理',
-    icon: 'subapp'
+    icon: <AppstoreOutlined />
   },
   {
     key: '/config-center',
@@ -52,23 +56,10 @@ export const MenuData = [
 const AppLayout: React.FC<{}> = () => {
   const location = useLocation();
   const history = useHistory();
-
-  // const getMenu = (menus: any[]) =>
-  //   menus.map((m) => {
-  //     if (m.children?.length) {
-  //       const subMenus: any = m.children;
-  //       return (
-  //         <SubMenu key={m.key} title={m.title}>
-  //           {getMenu(subMenus)}
-  //         </SubMenu>
-  //       );
-  //     } else {
-  //       return <Menu.Item key={m.key}>{m.title}</Menu.Item>;
-  //     }
-  //   });
+  const hideMenu = getValueInUrl('hidemenu') === 'yes';
   useEffect(() => {
     if (location.pathname === '/app') {
-      // history.push('/app/table');
+      history.push('/app/menu');
     }
   }, [location, history]);
 
@@ -82,36 +73,37 @@ const AppLayout: React.FC<{}> = () => {
       }
       result.push({ key, subMenu, name, ...restProps });
     }
-    return result
-  }, [])
+    return result;
+  }, []);
   return (
     <div className={style['main-container']}>
-      <div className={style['menu-container']}>
-        <div className={style['logo-wrap']}><img
-          src={common.logo_menu}
-          alt='云阵'
-        /></div>
-        {/* <Menu
-          onClick={(value) => {
-            history.push('/app' + value.key);
-          }}
-          style={{ width: '100%' }}
-          defaultSelectedKeys={['home']}
-          mode="inline">
-          {getMenu(MenuData)}
-        </Menu> */}
-        <NormalMenu menuList={MenuData} dataTransform={dataTransform} history={history} basePath="/app" lightRouteMap={{}}></NormalMenu>
-      </div>
+      {!hideMenu && (
+        <div className={style['menu-container']}>
+          <div className={style['logo-wrap']}>
+            <img src={common.logo_menu} alt="云阵" />
+          </div>
+          <NormalMenu menuList={MenuData} dataTransform={dataTransform} history={history} basePath="/app" lightRouteMap={{}}></NormalMenu>
+        </div>
+      )}
 
       <div className={style['right-container']}>
-        <div className={style['head-container']}></div>
-        <div className={style['content-container']}>
+        {!hideMenu && (
+          <div className={style['head-container']}>
+            <Header />
+          </div>
+        )}
+        <div
+          className={classnames({
+            [style['content-container']]: true,
+            [style['hide-menu']]: !!hideMenu
+          })}>
           <div className={style['route-view-container']}>
             <React.Suspense fallback={<Loading />}>
               <Switch>
-                <Route exact path="/app" render={() => <Redirect to="/app/home" />} />
+                <Route exact path="/app" render={() => <Redirect to="/app/menu" />} />
                 <Route path="/app/menu" render={() => <NormalTable />} />
                 <Route path="/app/subapp" render={() => <NormalForm />} />
+                <Route render={() => createElement(NotFound)} />
               </Switch>
             </React.Suspense>
           </div>
