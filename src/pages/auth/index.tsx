@@ -29,7 +29,7 @@ const Auth: React.FC<{}> = () => {
         <div className={style.introduce}></div>
         <div className={style.form}>
           <div className={style.welcome}>Welcome to</div>
-          <div className={style.title}>云阵配置中心</div>
+          <div className={style.title}>配置中心</div>
           <Form initialValues={{ remember: true }} layout="vertical" onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete="off">
             <Form.Item label="账号" name="username" rules={[{ required: true, message: '请输入账号!' }]}>
               <Input prefix={<UserOutlined />} placeholder="请输入账号" />

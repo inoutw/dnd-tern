@@ -81,7 +81,7 @@ const AppLayout: React.FC<{}> = () => {
       {!hideMenu && (
         <div className={style['menu-container']}>
           <div className={style['logo-wrap']}>
-            <img src={common.logo_menu} alt="云阵" />
+            <img src={common.logo_menu} alt="自定义" />
           </div>
           <NormalMenu menuList={MenuData} dataTransform={dataTransform} history={history} basePath="/app" lightRouteMap={{}}></NormalMenu>
         </div>
