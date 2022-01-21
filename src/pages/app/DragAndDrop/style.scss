@@ -1,0 +1,36 @@
+
+  .dnd-container {
+    position: relative;
+  }
+  .selectContainer {
+    position: relative;
+    width: 160px;
+    height: 200px;
+    top: 20px;
+    left: 20px;
+    border: 1px solid #d9d9d9;
+    overflow: hidden;
+    overflow-y: auto;
+    padding: 5px;
+  }
+  .vm-box {
+    display: inline-block;
+    width: 44px;
+    height: 53px;
+    margin: 6px 2px 0 0;
+    border:1px solid #0082CC;
+    padding: 5px;
+    &:hover,&.active{
+        background:rgba(14, 178, 255, 0.08);
+    }
+    &.active:hover{
+      cursor: move;
+    }
+   
+  }
+  .img-copy {
+    position: fixed;
+    cursor: move;
+    z-index: 999;
+  }
+  

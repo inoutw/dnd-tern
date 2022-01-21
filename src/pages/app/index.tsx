@@ -11,6 +11,7 @@ import NotFound from 'pages/404';
 import { getValueInUrl } from 'utils';
 import classnames from 'classnames';
 import Header from './Header';
+import DragAndDrop from './DragAndDrop';
 
 export const MenuData = [
   {
@@ -93,6 +94,7 @@ const AppLayout: React.FC<{}> = () => {
           </div>
         )}
         <div
+          id="content-container"
           className={classnames({
             [style['content-container']]: true,
             [style['hide-menu']]: !!hideMenu
@@ -101,7 +103,8 @@ const AppLayout: React.FC<{}> = () => {
             <React.Suspense fallback={<Loading />}>
               <Switch>
                 <Route exact path="/app" render={() => <Redirect to="/app/menu" />} />
-                <Route path="/app/menu" render={() => <NormalTable />} />
+                <Route path="/app/menu" render={() => <DragAndDrop />} />
+                <Route path="/app/dnd" render={() => <NormalTable />} />
                 <Route path="/app/subapp" render={() => <NormalForm />} />
                 <Route render={() => createElement(NotFound)} />
               </Switch>
