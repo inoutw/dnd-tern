@@ -20,20 +20,20 @@ export const GroupsInfo: any[] = [{
     group_name: '未防护分组',
     group_id: 0,
     vms: VmList,
-    left: '212px',
-    top: '730px'
+    left: 212,
+    top: 400
 },
 {
     group_name: '分组1',
     group_id: 1,
     vms: VmList2,
-    left: '412px',
-    top: '730px'
+    left: 412,
+    top: 400
 }, {
     group_name: '分组2',
     group_id: 2,
     vms: [],
-    left: '612px',
-    top: '730px'
+    left: 612,
+    top: 400
 }
 ]

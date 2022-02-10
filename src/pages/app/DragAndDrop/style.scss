@@ -1,17 +1,30 @@
 
   .dnd-container {
     position: relative;
-  }
-  .selectContainer {
-    position: relative;
-    width: 160px;
-    height: 200px;
-    top: 20px;
-    left: 20px;
-    border: 1px solid #d9d9d9;
-    overflow: hidden;
-    overflow-y: auto;
-    padding: 5px;
+    width: 1604px;
+    height: 1000px;
+    
+    .selectContainer {
+      position: relative ;
+      height: 200px;
+      padding: 5px;
+      overflow-y: auto;
+      .vm-box {
+        &.active{
+          background:rgba(14, 178, 255, 0.08);
+        }
+        &.active:hover{
+          cursor: move;
+        }
+      }
+    }
+    .ant-collapse-content > .ant-collapse-content-box {
+      padding: 0;
+    }
+    .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+      padding: 5px 10px 5px 10px;
+    }
+    
   }
   .vm-box {
     display: inline-block;
@@ -19,14 +32,11 @@
     height: 53px;
     margin: 6px 2px 0 0;
     border:1px solid #0082CC;
-    padding: 5px;
-    &:hover,&.active{
+    padding: 2px;
+    &:hover{
         background:rgba(14, 178, 255, 0.08);
     }
-    &.active:hover{
-      cursor: move;
-    }
-   
+
   }
   .img-copy {
     position: fixed;
@@ -34,3 +44,37 @@
     z-index: 999;
   }
   
+  .group-more{
+    .ant-modal-body {
+      height: 300px;
+      padding: 0;
+      max-height: 550px;
+      overflow-y: auto;
+
+    }
+    .group-select {
+      position: absolute;
+      right: 50px;
+      top: 12px;
+      span {
+        margin-right: 10px;
+      }
+    }
+    .selectContainer {
+      overflow-y: auto;
+      padding: 15px;
+      height: 100%;
+      position: relative;
+      .vm-box {
+        &.active{
+            background:rgba(14, 178, 255, 0.08);
+        }
+      }
+    }
+  }
+  .select-box {
+    position: absolute;
+    background-color: lightblue;
+    opacity: 0.3;
+    border: 1px dashed #d9d9d9;
+  }

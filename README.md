@@ -16,3 +16,8 @@
 * step7. 注册子应用，平台部署：打包上传 cnpc.zip 与相关信息 注册路由，独立部署无需上传
 * step8. 平台部署：后端将 cnpc.zip 解压到 nginx/html/apps 下, 修改 nginx.conf 中的location（使用正则，无需修改和重启）
 * step9. 注册路由菜单
+
+### drag and drop issue
+拖动元素在页面中，mouse up in container没起作用，
+pointer-event：none，鼠标会穿透到下层元素，引起mouse-hover效果
+pageY和clientY相等？

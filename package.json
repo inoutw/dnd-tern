@@ -5,6 +5,7 @@
   "microName": "config-center",
   "proxy": "http://link.csmp.qihoo.net:9080/",
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
     "@babel/core": "7.12.3",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@svgr/webpack": "5.5.0",
