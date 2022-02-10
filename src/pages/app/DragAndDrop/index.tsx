@@ -15,6 +15,7 @@ const MovingNodeWidth = 50;
 const MovingNodeHeight = 50;
 export const GROUP_PREFIX = 'group-'
 const PREFIX_LENTH = GROUP_PREFIX.length
+const ActiveColor = 'rgba(14, 178, 255, 0.08)'
 const DnDContext: any = React.createContext({} as any)
 export const useDnDContext: any = () => useContext(DnDContext)
 
@@ -28,10 +29,8 @@ const DragAndDrop: React.FC<Props> = props => {
     const [oldGroup, setOldGroup] = useState<any>()
     const [newGroup, setNewGroup] = useState<any>()
     const [movingNodeVisible, setMovingNodeVisible] = useState<boolean>(false)
-    // const [selectBoxStyle, setSelectBoxStyle] = useState<any>({})
     const contentContainer = document.querySelector('#content-container')
     const ScrollX = contentContainer?.scrollLeft || 0
-    const ScrollY = contentContainer?.scrollTop || 0
 
     const [groupsInfo, setGroupsInfo] = useState<any[]>(GroupsInfo)
 
@@ -61,8 +60,6 @@ const DragAndDrop: React.FC<Props> = props => {
             event.stopPropagation()
             event.preventDefault()
             setActiveBoxes([])
-
-            // setDragVmStart(false)
             // 在container外up，清除activeBoxes
         }
         const mouseUp = (event: any) => {
@@ -73,7 +70,6 @@ const DragAndDrop: React.FC<Props> = props => {
             setStartEvent({})
             setOldGroup(undefined)
 
-            // setSelectBoxStyle({})
             // 内部dnd-container释放拖拽元素时无法触发mouseup
             const newGroup = getNewGroupId(event)
 
@@ -103,8 +99,6 @@ const DragAndDrop: React.FC<Props> = props => {
             let { clientX, clientY } = event
             if (isEmpty(startEvent)) return
             setMovingXY({ clientX, clientY })
-
-            // console.log('mouse move', event.clientX)
         }
         document.addEventListener('mousemove', mouseMove)
         document.addEventListener('mouseup', mouseUp)
@@ -185,15 +179,15 @@ const DragAndDrop: React.FC<Props> = props => {
             let allActiveBoxIds = activeBoxes.map(item => item.id)
             for (let item of targets) {
                 if (allActiveBoxIds.includes(item.id)) {
-                    item.classList.add('active')
+                    item.style.background = ActiveColor
                 } else {
-                    item.classList.remove('active')
+                    item.style.background = 'transparent'
                 }
             }
         }
         const clearActiveStatus = (targets: any) => {
             for (let item of targets) {
-                item.classList.remove('active')
+                item.style.background = 'transparent'
             }
         }
 

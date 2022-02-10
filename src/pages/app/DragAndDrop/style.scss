@@ -5,14 +5,8 @@
     height: 1000px;
     
     .selectContainer {
-      position: relative ;
-      height: 200px;
       padding: 5px;
-      overflow-y: auto;
       .vm-box {
-        &.active{
-          background:rgba(14, 178, 255, 0.08);
-        }
         &.active:hover{
           cursor: move;
         }
@@ -25,6 +19,17 @@
       padding: 5px 10px 5px 10px;
     }
     
+  }
+  .selectContainer {
+    position: relative ;
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    .vm-box {
+      &.active{
+        background:rgba(14, 178, 255, 0.08);
+      }
+    }
   }
   .vm-box {
     display: inline-block;
@@ -61,10 +66,7 @@
       }
     }
     .selectContainer {
-      overflow-y: auto;
       padding: 15px;
-      height: 100%;
-      position: relative;
       .vm-box {
         &.active{
             background:rgba(14, 178, 255, 0.08);
@@ -76,5 +78,4 @@
     position: absolute;
     background-color: lightblue;
     opacity: 0.3;
-    border: 1px dashed #d9d9d9;
   }

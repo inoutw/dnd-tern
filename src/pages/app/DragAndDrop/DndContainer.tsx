@@ -82,7 +82,6 @@ const DndContainer: React.ForwardRefRenderFunction<any, Props> = ({ ctrlDown, li
 
         let targetIsBox = eventTargetInElClass(event, VmClassName)
         // 鼠标down in inactive box
-        // console.log('parentId', parentId)
         if (!isTargetActived && targetIsBox) {
             setActiveBoxes([event.target])
         }
@@ -111,11 +110,8 @@ const DndContainer: React.ForwardRefRenderFunction<any, Props> = ({ ctrlDown, li
             // 只保留原始group和最新的groupId
         } else {
             // 处理框选
-            // console.log('select-box', event.clientX, event.clientY)
             const styleRes = getSelectBoxStyle(event, parentId, startEvent, domRelative)
             setSelectBoxStyle(styleRes)
-            // console.log('styleRes', styleRes)
-            // todo 右下角开始框选，鼠标hover穿透
             preventEvent(event)
         }
 
@@ -153,19 +149,15 @@ const DndContainer: React.ForwardRefRenderFunction<any, Props> = ({ ctrlDown, li
             // 可进行box拖拽
         } else {
         }
-        // console.log('container click', event.target)
     }
-
-    useEffect(() => {
-        let allVmBoxes = document.querySelectorAll(`#${parentId} .vm-box`)
-    }, [parentId])
-    const allActivedBoxIds = activeBoxes?.map((item: any) => +item.id)
+    // const allActivedBoxIds = activeBoxes?.map((item: any) => +item.id)
 
     // 鼠标移出，框选取消
     const onContainerMouseLeave = () => {
         if (!isEmpty(selectBoxStyle)) {
             setSelectBoxStyle({})
         }
+        setStartEvent({})
     }
 
     return <div
