@@ -124,7 +124,7 @@ export const getPositionInContainer = (e: any, containerElement: any, domRelativ
 export const getSelectBoxStyle = (event: any, parentId: any, oldEvent: any, domRelative = true) => {
     const position: any = getPositionInContainer(event, parentId, domRelative)
     const oldPosition: any = getPositionInContainer(oldEvent, parentId, domRelative)
-    const domContainer = document.querySelector('#content-contianer')
+    const domContainer = document.querySelector('#content-container')
     const scrollY = domRelative ? domContainer?.scrollTop || 0 : 0
     const scrollX = 0
     const groupEl = document.getElementById(parentId)
@@ -135,7 +135,7 @@ export const getSelectBoxStyle = (event: any, parentId: any, oldEvent: any, domR
         left: oldPosition.left + scrollX,
         top: oldPosition.top + scrollY + scrollGroupY,
     }
-    let left = Math.min(position.left, startPosition.left) - 1 //避免反向选择，鼠标穿透
+    let left = Math.min(position.left, startPosition.left) - 1 //-1避免反向选择时，鼠标穿透触发hover
     let top = Math.min(position.top, startPosition.top) - 1
     let width = Math.abs(position.left - startPosition.left)
     let height = Math.abs(position.top - startPosition.top)
