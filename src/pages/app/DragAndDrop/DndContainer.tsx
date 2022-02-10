@@ -156,8 +156,8 @@ const DndContainer: React.ForwardRefRenderFunction<any, Props> = ({ ctrlDown, li
     const onContainerMouseLeave = () => {
         if (!isEmpty(selectBoxStyle)) {
             setSelectBoxStyle({})
+            setStartEvent({})
         }
-        setStartEvent({})
     }
 
     return <div
