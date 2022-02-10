@@ -137,8 +137,8 @@ export const getSelectBoxStyle = (event: any, parentId: any, oldEvent: any, domR
     }
     let left = Math.min(position.left, startPosition.left) - 1 //-1避免反向选择时，鼠标穿透触发hover
     let top = Math.min(position.top, startPosition.top) - 1
-    let width = Math.abs(position.left - startPosition.left)
-    let height = Math.abs(position.top - startPosition.top)
+    let width = Math.abs(position.left - startPosition.left) + 1//+1避免正向选择时，鼠标穿透触发hover
+    let height = Math.abs(position.top - startPosition.top) + 1
     return { left, top, width, height }
 }
 
