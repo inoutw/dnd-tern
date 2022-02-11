@@ -1,16 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { isArray, isEmpty } from 'lodash'
-
 import { useDnDContext } from '.';
 import './style.scss'
 import { eventTargetInElClass, getSelectBoxStyle, listFindSelected, mouseToDrag, preventEvent } from './helper';
 
 interface Props { }
-
 /**
  * container内绑定事件
  * 鼠标在container内mousedown，分两种情况，
- * 1、vm-box内，增加activeBox
+ * 1、box内，增加activeBox
  * 2、container其他地方，记住鼠标开始位置startXY，开始框选
  * 
  * 
@@ -21,19 +19,16 @@ interface Props { }
  * 
  * 
  * 鼠标在container内mouseup，有结束位置endXY
- * 1、有startXY，endXY,判断vm-box 是否被选中
+ * 1、有startXY，endXY,判断box 是否被选中
  * 2、有activeBox, 未找到新分组, 拖动效果清除；找到新的分组，更新分组信息
  * 
  * 
  * 鼠标在container内click, 
  * 1、有activeBox，在activeBox外up，清除active状态
- * 2、点在vm-box上，
+ * 2、点在box上，
  */
-
-
-
-export const VmClassName = 'vm-box'
-export const VmContainer = 'selectContainer'
+export const BoxClassName = 'box'
+export const BoxContainer = 'selectContainer'
 
 interface Props {
     ctrlDown: boolean
@@ -42,12 +37,11 @@ interface Props {
     domRelative?: boolean
 }
 
-const DndContainer: React.ForwardRefRenderFunction<any, Props> = ({ ctrlDown, list, parentId, domRelative = true, ...props }, ref) => {
+const DndContainer: React.FC<Props> = ({ ctrlDown, list, parentId, domRelative = true, ...props }) => {
     const [selectBoxStyle, setSelectBoxStyle] = useState<any>({})
-    const { movingXY, movingNodeVisible, setMovingNodeVisible, startEvent, setStartEvent, activeBoxes, setActiveBoxes, oldGroup, setOldGroup } = useDnDContext()
+    const { setMovingNodeVisible, startEvent, setStartEvent, activeBoxes, setActiveBoxes } = useDnDContext()
 
     const SELECT_BOX_ID = `${parentId}-select-box`
-    const dndRef = useRef<any>()
 
     const updateActiveBoxes = (newComes: any) => {
         if (isEmpty(newComes)) return
@@ -80,7 +74,7 @@ const DndContainer: React.ForwardRefRenderFunction<any, Props> = ({ ctrlDown, li
         let allActiveBoxIds = activeBoxes?.map((item: any) => +item.id)
         let isTargetActived = allActiveBoxIds.includes(+event.target.id)
 
-        let targetIsBox = eventTargetInElClass(event, VmClassName)
+        let targetIsBox = eventTargetInElClass(event, BoxClassName)
         // 鼠标down in inactive box
         if (!isTargetActived && targetIsBox) {
             setActiveBoxes([event.target])
@@ -97,14 +91,13 @@ const DndContainer: React.ForwardRefRenderFunction<any, Props> = ({ ctrlDown, li
         if (isEmpty(startEvent)) return
         let { clientX: oldX, clientY: oldY } = startEvent
         let { clientX, clientY } = event
-        const scrollX = document.querySelector('.server-layout-flow-chart')?.scrollLeft || 0
+        const scrollX = document.querySelector('.container')?.scrollLeft || 0
         // 鼠标点在浏览器外，在点在vm上会出现移动结点
         if (oldX === clientX + scrollX && oldY === clientY) {
             return
         }
         // 拖拽的两种情况：1、选中activeBox，再拖拽 2、直接点击inactive 状态的box，进行拖拽
         let startDrag = mouseToDrag(startEvent.target, activeBoxes)
-        setOldGroup && setOldGroup(parentId)
         if (startDrag) {
             setMovingNodeVisible && setMovingNodeVisible(true)
             // 只保留原始group和最新的groupId
@@ -114,7 +107,6 @@ const DndContainer: React.ForwardRefRenderFunction<any, Props> = ({ ctrlDown, li
             setSelectBoxStyle(styleRes)
             preventEvent(event)
         }
-
     }
 
     /**
@@ -123,14 +115,10 @@ const DndContainer: React.ForwardRefRenderFunction<any, Props> = ({ ctrlDown, li
      */
     const onContainerMouseUp = (event: any) => {
         preventEvent(event)
-        // container
-        if (movingNodeVisible) {
-        }
         if (!isEmpty(selectBoxStyle)) {
-            let selectedVms = listFindSelected(parentId, document.getElementById(SELECT_BOX_ID))
-            updateActiveBoxes(selectedVms)
+            let selectedBoxes = listFindSelected(parentId, document.getElementById(SELECT_BOX_ID))
+            updateActiveBoxes(selectedBoxes)
         }
-        setOldGroup(undefined)
         // 释放移动结点
         setMovingNodeVisible && setMovingNodeVisible(false)
         setStartEvent({})
@@ -140,14 +128,13 @@ const DndContainer: React.ForwardRefRenderFunction<any, Props> = ({ ctrlDown, li
     const onContainerClick = (event: any) => {
         preventEvent(event)
         // 点击vm：拖拽单个
-        if (eventTargetInElClass(event, VmClassName)) {
+        if (eventTargetInElClass(event, BoxClassName)) {
             if (ctrlDown) {
                 updateActiveBoxes(event.target)
             } else {
                 setActiveBoxes([event.target])
             }
             // 可进行box拖拽
-        } else {
         }
     }
     // const allActivedBoxIds = activeBoxes?.map((item: any) => +item.id)
@@ -161,9 +148,8 @@ const DndContainer: React.ForwardRefRenderFunction<any, Props> = ({ ctrlDown, li
     }
 
     return <div
-        ref={dndRef}
         id={parentId}
-        className={`${VmContainer}`}
+        className={`${BoxContainer}`}
         onMouseDown={onContainerMouseDown}
         onMouseMove={onContainerMouseMove}
         onMouseUp={onContainerMouseUp}
@@ -173,12 +159,11 @@ const DndContainer: React.ForwardRefRenderFunction<any, Props> = ({ ctrlDown, li
         {
             list?.map((vm: any) => {
                 // let isActive = allActivedBoxIds.includes(vm.id)
-                return <div className={`vm-box `} key={vm.id} id={vm.id}>{vm.name}</div>
+                return <div className={`box `} key={vm.id} id={vm.id}>{vm.name}</div>
             })
         }
         {!!props.children && props.children}
         <div className="select-box" style={selectBoxStyle} id={SELECT_BOX_ID}></div>
     </div>
 }
-
 export default DndContainer

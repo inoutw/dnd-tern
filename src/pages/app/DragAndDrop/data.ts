@@ -1,38 +1,38 @@
-export const VmList: any[] = [
-    { id: 1, name: 'vm1' },
-    { id: 2, name: 'vm2' },
-    { id: 3, name: 'vm3' },
-    { id: 4, name: 'vm4' },
-    { id: 5, name: 'vm5' },
-    { id: 6, name: 'vm6' },
-    { id: 7, name: 'vm7' },
-    { id: 8, name: 'vm8' },
-    { id: 9, name: 'vm9' },
-    { id: 10, name: 'vm10' },
-    { id: 11, name: 'vm11' },
+export const BoxList: any[] = [
+    { id: 1, name: 'box1' },
+    { id: 2, name: 'box2' },
+    { id: 3, name: 'box3' },
+    { id: 4, name: 'box4' },
+    { id: 5, name: 'box5' },
+    { id: 6, name: 'box6' },
+    { id: 7, name: 'box7' },
+    { id: 8, name: 'box8' },
+    { id: 9, name: 'box9' },
+    { id: 10, name: 'box10' },
+    { id: 11, name: 'box11' },
 ]
-export const VmList2: any[] = [
-    { id: 12, name: 'vm12' },
-    { id: 13, name: 'vm13' },
+export const BoxList2: any[] = [
+    { id: 12, name: 'box12' },
+    { id: 13, name: 'box13' },
 ]
 
 export const GroupsInfo: any[] = [{
-    group_name: '未防护分组',
+    group_name: '分组0',
     group_id: 0,
-    vms: VmList,
+    boxes: BoxList,
     left: 212,
     top: 400
 },
 {
     group_name: '分组1',
     group_id: 1,
-    vms: VmList2,
+    boxes: BoxList2,
     left: 412,
     top: 400
 }, {
     group_name: '分组2',
     group_id: 2,
-    vms: [],
+    boxes: [],
     left: 612,
     top: 400
 }

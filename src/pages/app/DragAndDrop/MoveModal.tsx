@@ -1,5 +1,4 @@
 import { Modal, Select } from "antd"
-import { GROUP_PREFIX } from "."
 import DndContainer from "./DndContainer"
 
 
@@ -15,7 +14,7 @@ const MoveModal: React.FC<any> = ({ modalVisible, cancel, confirm, curItem, getI
             <span className="modal-header">
                 <span>
                     {getIcon(curItem)}
-                    {curItem?.group_name}（{curItem?.vms?.length}）
+                    {curItem?.group_name}（{curItem?.boxes?.length}）
                 </span>
                 <span className="group-select">
                     <span>移动至：</span>
@@ -41,7 +40,7 @@ const MoveModal: React.FC<any> = ({ modalVisible, cancel, confirm, curItem, getI
                 </span>
             </span>
         }>
-        <DndContainer ctrlDown={ctrlDown} list={curItem.vms} parentId={`modal-vms`} domRelative={false}>
+        <DndContainer ctrlDown={ctrlDown} list={curItem.boxes} parentId={`modal-boxes`} domRelative={false}>
         </DndContainer>
     </Modal>
 }

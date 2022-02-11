@@ -26,7 +26,6 @@ const DragAndDrop: React.FC<Props> = props => {
     const [startEvent, setStartEvent] = useState<any>()
     const [movingXY, setMovingXY] = useState<any>({})
     const [activeBoxes, setActiveBoxes] = useState<any[]>([])
-    const [oldGroup, setOldGroup] = useState<any>()
     const [newGroup, setNewGroup] = useState<any>()
     const [movingNodeVisible, setMovingNodeVisible] = useState<boolean>(false)
     const contentContainer = document.querySelector('#content-container')
@@ -35,19 +34,19 @@ const DragAndDrop: React.FC<Props> = props => {
     const [groupsInfo, setGroupsInfo] = useState<any[]>(GroupsInfo)
 
     const updateGroupInfo = useCallback((oldGroupId: number, newGroupId: number) => {
-        let changedVmIds = activeBoxes.map(item => +item.id)
+        let changedBoxIds = activeBoxes.map(item => +item.id)
         setGroupsInfo((gInfo: any[]) => {
             let gInfoCopy = [...gInfo]
             let groupRes = gInfoCopy.find(gItem => gItem.group_id === oldGroupId)
-            let oldGroupVms: any[] = groupRes?.vms
-            let changedVms = oldGroupVms?.filter(vm => changedVmIds.includes(vm.id))
+            let oldGroupBoxes: any[] = groupRes?.boxes
+            let changedBoxes = oldGroupBoxes?.filter(box => changedBoxIds.includes(box.id))
             for (let gItem of gInfoCopy) {
-                let { vms, group_id } = gItem
+                let { boxes, group_id } = gItem
                 if (group_id === oldGroupId) {
-                    gItem.vms = vms.filter((vm: any) => !changedVmIds.includes(vm.id))
+                    gItem.boxes = boxes.filter((box: any) => !changedBoxIds.includes(box.id))
                 }
                 if (group_id === newGroupId) {
-                    gItem.vms = [...gItem.vms, ...changedVms]
+                    gItem.boxes = [...gItem.boxes, ...changedBoxes]
                 }
             }
             return gInfoCopy
@@ -68,12 +67,10 @@ const DragAndDrop: React.FC<Props> = props => {
             }
             setMovingNodeVisible(false)
             setStartEvent({})
-            setOldGroup(undefined)
 
             // 内部dnd-container释放拖拽元素时无法触发mouseup
             const newGroup = getNewGroupId(event)
-
-            // 从拖动的vmbox获取oldGroup更准确
+            // 从拖动的box获取oldGroup更准确
             let oldGroup = activeBoxes && activeBoxes[0]?.parentElement?.id
             if (newGroup && oldGroup !== newGroup) {
                 //todo 更新GroupInfo数据
@@ -81,8 +78,6 @@ const DragAndDrop: React.FC<Props> = props => {
                 let newGroupId = +newGroup.substring(PREFIX_LENTH)
                 updateGroupInfo(oldGroupId, newGroupId)
             }
-
-
         }
         const keyDown = (e: any) => {
             if (e.keyCode !== 17) return
@@ -113,7 +108,6 @@ const DragAndDrop: React.FC<Props> = props => {
             document.removeEventListener('keyup', keyUp)
         }
     }, [startEvent, movingNodeVisible, activeBoxes, updateGroupInfo])
-
 
     const getMore = (event: any, item: any) => {
         setModalVisible(true)
@@ -146,7 +140,7 @@ const DragAndDrop: React.FC<Props> = props => {
     const getExtra = (item: any) => {
         return (
             <span>
-                {item?.vms?.length > 0 && (
+                {item?.boxes?.length > 0 && (
                     <span className="more" onClick={(event: any) => getMore(event, item)}>
                         <FullscreenOutlined />
                     </span>
@@ -173,7 +167,7 @@ const DragAndDrop: React.FC<Props> = props => {
         updateGroupInfo(curItem.group_id, newGroup)
         setModalVisible(false)
     }
-    // 弹框和dnd-container内的vm-box active状态分离
+    // 弹框和dnd-container内的box active状态分离
     useEffect(() => {
         const resetActiveBoxes = (targets: any) => {
             let allActiveBoxIds = activeBoxes.map(item => item.id)
@@ -192,31 +186,31 @@ const DragAndDrop: React.FC<Props> = props => {
         }
 
         setTimeout(() => {
-            let targets = document.querySelectorAll('.dnd-container .vm-box')
+            let targets = document.querySelectorAll('.dnd-container .box')
             if (modalVisible) {
                 clearActiveStatus(targets)
-                targets = document.querySelectorAll('.group-more .vm-box')
+                targets = document.querySelectorAll('.group-more .box')
             }
             resetActiveBoxes(targets)
         }, 50)
 
     }, [modalVisible, activeBoxes])
-    return <DnDContext.Provider value={{ setGroupsInfo, oldGroup, setOldGroup, movingXY, movingNodeVisible, setMovingNodeVisible, startEvent, setStartEvent, activeBoxes, setActiveBoxes }}>
+    return <DnDContext.Provider value={{ setGroupsInfo, setMovingNodeVisible, startEvent, setStartEvent, activeBoxes, setActiveBoxes }}>
         <div className='dnd-container'>
             {groupsInfo.map(item => {
                 let parentId = `${GROUP_PREFIX}${item.group_id}`
-                const isUnprotectedGroup = item.group_id === 0
                 return <Collapse
                     key={item.group_id}
-                    className={['group-collapse', isUnprotectedGroup ? 'unprotected-group' : null].join(' ')}
+                    className='group-collapse'
                     style={{
                         width: '160px',
                         position: 'absolute', left: item?.left || 0, top: item?.top || 0
                     }}
                     expandIcon={props => getIcon(item)}
-                    defaultActiveKey={'1'}>
+                    defaultActiveKey={'1'}
+                >
                     <Collapse.Panel className="group-panel" header={getHeader(item)} key="1" extra={getExtra(item)}>
-                        <DndContainer ctrlDown={ctrlDown} list={item.vms} parentId={parentId}>
+                        <DndContainer ctrlDown={ctrlDown} list={item.boxes} parentId={parentId}>
                         </DndContainer>
                     </Collapse.Panel>
                 </Collapse>
@@ -237,5 +231,4 @@ const DragAndDrop: React.FC<Props> = props => {
         ></MoveModal>
     </DnDContext.Provider >
 }
-
 export default DragAndDrop

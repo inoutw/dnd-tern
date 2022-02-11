@@ -6,7 +6,7 @@
     
     .selectContainer {
       padding: 5px;
-      .vm-box {
+      .box {
         &.active:hover{
           cursor: move;
         }
@@ -25,13 +25,13 @@
     height: 200px;
     overflow-y: auto;
     overflow-x: hidden;
-    .vm-box {
+    .box {
       &.active{
         background:rgba(14, 178, 255, 0.08);
       }
     }
   }
-  .vm-box {
+  .box {
     display: inline-block;
     width: 44px;
     height: 53px;
@@ -67,7 +67,7 @@
     }
     .selectContainer {
       padding: 15px;
-      .vm-box {
+      .box {
         &.active{
             background:rgba(14, 178, 255, 0.08);
         }

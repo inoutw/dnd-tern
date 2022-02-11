@@ -4,7 +4,7 @@
  * @param containerElement 所有选中项
  */
 
-import { VmContainer } from "./DndContainer"
+import { BoxContainer } from "./DndContainer"
 
 export const mouseToDrag = (target: any, nodeList: any) => {
     let containsEvent = false
@@ -80,7 +80,7 @@ export const eventTargetInElClass = (event: any, classNameStr: string) => {
 // 拖拽主机时，获取新的分组id
 export const getNewGroupId = (event: any) => {
     let newGroupId: string = ''
-    const groupEles: any = document.getElementsByClassName(VmContainer)
+    const groupEles: any = document.getElementsByClassName(BoxContainer)
     for (let i = 0; i < groupEles?.length; i++) {
         const gItem = groupEles[i]
         if (isMouseInclude(event, gItem)) {
@@ -201,7 +201,7 @@ export const isEleInclude = (ele1: any, ele2: any, containerElement: any) => {
 export const listFindSelected = (groupId: string, selectBox: any,) => {
     let list: any = []
     let constainerEl = document.getElementById(groupId)
-    const vmList: any = constainerEl?.getElementsByClassName('vm-box')
+    const vmList: any = constainerEl?.getElementsByClassName('box')
     for (let i = 0; i < vmList?.length; i++) {
         const item: any = vmList[i]
         if (isEleInclude(selectBox, item, constainerEl)) {
