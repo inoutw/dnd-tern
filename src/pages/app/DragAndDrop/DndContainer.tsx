@@ -66,8 +66,7 @@ const DndContainer: React.FC<Props> = ({ ctrlDown, list, parentId, domRelative =
      * @returns 
      */
     const onContainerMouseDown = (event: any) => {
-        event.stopPropagation()
-        event.preventDefault()
+        preventEvent(event)
         if (ctrlDown) return
         setStartEvent(event)
 
@@ -83,7 +82,6 @@ const DndContainer: React.FC<Props> = ({ ctrlDown, list, parentId, domRelative =
         if (!targetIsBox) {
             setActiveBoxes([])
         }
-
     }
 
     // container内部的move处理框选和显示移动结点
